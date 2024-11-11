@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>UIT Car Racing</title>
+
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="/logo/hinhxe.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="module/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/scoreboard.css">
+    <link rel="stylesheet" type="text/css" href="module/fontawesome/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/assets/js/scoreboard_view.js"></script>
+
+    <script type="text/javascript" src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="module/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+</head>
+
+<body>
+    <div class="versus overflow-x-auto h-screen">
+        <div class="flex flex-col gap-4 pt-0 pl-4 pr-4   w-full">
+            <table class="w-full gap-4">
+                <tr class="w-full flex flex-row justify-between">
+                    <th class="flex flex-col justify-center items-center w-full text-center"><strong
+                            class="text-[20px] text-[#ffffff]">Đơn
+                            vị tổ chức</strong></th>
+                    <th class="flex flex-col justify-center items-center w-full text-center"><strong
+                            class="text-[#ffffff] text-[20px] ">Đơn vị
+                            <br>
+                            tài trợ <span class="text-[#FFD700]">Vàng</span></strong></th>
+                    <th class="flex flex-col justify-center items-center w-full text-center"><strong
+                            style="text-shadow: 5px 5px 5px rgb(0, 0, 0)" class="text-[#ffffff] text-[20px]">Đơn vị
+                            <br> tài trợ <span class="text-[#98948e]">Bạc</span></strong></th>
+                    <th class="flex flex-col justify-center items-center w-full text-center"><strong
+                            class="text-[#ffffff] text-[20px]">Đơn vị
+                            <br> tài trợ <span class="text-[#cd7f32]">Đồng</span></strong></th>
+                </tr>
+                <tr class="flex flex-row bg-[#ffffff] w-full p-[5px] rounded-full h-[62px]">
+                    <th class="flex flex-row gap-4 w-full items-center justify-center">
+                        <img class="w-auto h-full" src="logo/UIT/logoUIT.png">
+                        <img class="w-auto h-full" src="logo/UIT/logoCE.png">
+                        <img class="w-auto h-full" src="logo/UIT/logoDTN.png">
+                        <img class="w-auto h-full" src="logo/UIT/logoHSV.png">
+                        <img class="w-auto h-full" src="logo/UIT/CEEC.png">
+                    </th>
+                    <th class="flex flex-row gap-4 w-full h-full items-center justify-center">
+                        <img class="w-auto h-[120%]" src="logo\taitro\faraday.png">
+                    </th>
+                    <th class="flex flex-row w-full items-center justify-center">
+                        <img class="w-auto h-[150%]" src="logo\taitro\FPT.png">
+                        <img class="w-auto h-full" src="logo\taitro\DEK.png">
+                        <img class="w-auto h-[130%]" src="logo\taitro\UNIQUIFY.png">
+                    </th>
+                    <th class="flex flex-row w-full items-center justify-center">
+                        <img class="w-auto h-[120%]" src="logo\taitro\h123.png">
+                        <img class="w-auto h-[120%]" src="logo\taitro\union.png">
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="board top-left column0" id="board0">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"  id="team-name-id">
+                    <img class="w-auto h-[40px] p-1" style="background-color: aliceblue; border-radius: 15px;" src="logo/UIT/logoUIT.png">
+                    <br><strong class="pl-2" id="nameofteam-0">team1</strong>
+                </div>
+                <div class="row">
+                    <div class="column2">
+                        <div class="positive"><label>Số thử thách vượt qua: </label><span id="plus-0"> 0</span></div>
+                        <div class="positive sub" id="main-plus-0-0"><label>Số checkpoint hoàn thành: </label><span id="plus-0-0"> 0</span></div>
+                        <div class="positive sub" id="main-plus-0-1"><label>Tuân thủ biển báo: </label><span id="plus-0-1"> 0</span></div>
+                        <div class="positive sub" id="main-plus-0-2"><label>Tuân thủ đèn giao thông: </label><span id="plus-0-2"> 0</span></div>
+
+                    </div>
+                    <div class="column2">
+                        <div class="negative"><label>Số lỗi vi phạm: </label><span id="subtract-0"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-0-0"><label>Outline: </label><span id="subtract-0-0"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-0-1"><label>Vượt đèn đỏ: </label><span id="subtract-0-1"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-0-2"><label>Không tuân thủ biển báo:  </label><span id="subtract-0-2"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-0-3"><label>Chạy lấn line: </label><span id="subtract-0-3"> 0</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="board top-right column0" id="board1">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"  id="team-name-id">
+                    <img class="w-auto h-[40px] p-1" style="background-color: aliceblue; border-radius: 15px;" src="logo/UIT/logoUIT.png">
+                    <br><strong class="pl-2" id="nameofteam-1">team2</strong>
+                </div>
+                <div class="row">
+                    <div class="column2">
+                        <div class="positive"><label>Số thử thách vượt qua: </label><span id="plus-1"> 0</span></div>
+                        <div class="positive sub" id="main-plus-1-0"><label>Số checkpoint hoàn thành: </label><span id="plus-1-0"> 0</span></div>
+                        <div class="positive sub" id="main-plus-1-1"><label>Tuân thủ biển báo: </label><span id="plus-1-1"> 0</span></div>
+                        <div class="positive sub" id="main-plus-1-2"><label>Tuân thủ đèn giao thông: </label><span id="plus-1-2"> 0</span></div>
+
+                    </div>
+                    <div class="column2">
+                        <div class="negative"><label>Số lỗi vi phạm: </label><span id="subtract-1"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-1-0"><label>Outline: </label><span id="subtract-1-0"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-1-1"><label>Vượt đèn đỏ: </label><span id="subtract-1-1"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-1-2"><label>Không tuân thủ biển báo: </label><span id="subtract-1-2"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-1-3"><label>Chạy lấn line: </label><span id="subtract-1-3"> 0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="logo_car column" >  
+                <img class="w-[40%] h-[auto] center" src="logo\logoITCAR.png">
+            </div>
+            <div id="btnStartStop" class="column1 ">
+                <button class="btn btn-success my-btn center" id="start" data-toggle="modal">BẮT ĐẦU</button>
+            </div>
+            <div id="timerCount" class="timer text-[55px] column text-center" ></div>
+        </div>
+        <div class="row">
+            <div class="board top-left column0" id="board2">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden" id="team-name-id">
+                    <img class="w-auto h-[45px] p-1" style="background-color: aliceblue; border-radius: 5px;"  src="logo/HCMUTE.png">
+                    <br><strong class="pl-2" id="nameofteam-2">team3</strong>
+                </div>
+                <div class="row">
+                    <div class="column2">
+                        <div class="positive"><label>Số thử thách vượt qua: </label><span id="plus-2"> 0</span></div>
+                        <div class="positive sub" id="main-plus-2-0"><label>Số checkpoint hoàn thành: </label><span id="plus-2-0"> 0</span></div>
+                        <div class="positive sub" id="main-plus-2-1"><label>Tuân thủ biển báo: </label><span id="plus-2-1"> 0</span></div>
+                        <div class="positive sub" id="main-plus-2-2"><label>Tuân thủ đèn giao thông: </label><span id="plus-2-2"> 0</span></div>
+                        <!-- <div class="positive sub" id="main-plus-2-3"><label>Tuân thủ đèn giao thông: </label><span id="plus-2-3"> 0</span></div> -->
+                    </div>
+                    <div class="column2">
+                        <div class="negative"><label>Số lỗi vi phạm: </label><span id="subtract-2"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-2-0"><label>Outline: </label><span id="subtract-2-0"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-2-1"><label>Vượt đèn đỏ: </label><span id="subtract-2-1"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-2-2"><label>Không tuân thủ biển báo: </label><span id="subtract-2-2"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-2-3"><label>Chạy lấn line: </label><span id="subtract-2-3"> 0</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="board top-right column0" id="board3">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden" id="team-name-id">
+                    <img class="w-auto h-[40px] p-1 " style="background-color: aliceblue; border-radius: 5px;" src="logo/fpt.png">
+                    <br><strong class="pl-2" id="nameofteam-3">team4</strong>
+                </div>
+                <div class="row">
+                    <div class="column2">
+                        <div class="positive"><label>Số thử thách vượt qua: </label><span id="plus-3"> 0</span></div>
+                        <div class="positive sub" id="main-plus-3-0"><label>Số checkpoint hoàn thành: </label><span id="plus-3-0"> 0</span></div>
+                        <div class="positive sub" id="main-plus-3-1"><label>Tuân thủ biển báo: </label><span id="plus-3-1"> 0</span></div>
+                        <div class="positive sub" id="main-plus-3-2"><label>Tuân thủ đèn giao thông: </label><span id="plus-3-2"> 0</span></div>
+                        <!-- <div class="positive sub" id="main-plus-3-3"><label>Tuân thủ đèn giao thông: </label><span id="plus-3-3"> 0</span></div> -->
+                    </div>
+                    <div class="column2">
+                        <div class="negative"><label>Số lỗi vi phạm: </label><span id="subtract-3"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-3-0"><label>Outline: </label><span id="subtract-3-0"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-3-1"><label>Vượt đèn đỏ: </label><span id="subtract-3-1"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-3-2"><label>Không tuân thủ biển báo: </label><span id="subtract-3-2"> 0</span></div>
+                        <div class="negative sub" id="main-subtract-3-3"><label>Chạy lấn line: </label><span id="subtract-3-3"> 0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 50%;">
+                <div class="modal-body" style="min-height: 40vh;">
+                    <div class="counter">
+                        <div class="nums">
+                            <span class="in">3</span>
+                            <span>2</span>
+                            <span>1</span>
+                            <span>0</span>
+                        </div>
+                        <h4>Get Ready</h4>
+                    </div>
+                    <div class="final">
+                        <h1 style="font-size: 11vw; color:  #3498db;">GO</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio controls class="h-0" id="start_sound">
+        <source allow="autoplay" muted="muted" src="/sound/start.mp3" type="audio/mpeg">
+      </audio>
+      <audio controls class="h-0" id="car_start_sound">
+        <source allow="autoplay" muted="muted" src="/sound/carstart.mp3" type="audio/mpeg">
+      </audio>
+      <audio controls class="h-0" id="checkpoint_passed">
+        <source allow="autoplay" muted="muted" src="/sound/checkpoint_passed.mp3" type="audio/mpeg">
+      </audio>
+      <audio controls class="h-0" id="eli_sound">
+        <source allow="autoplay" muted="muted" src="/sound/eliminated.mp3" type="audio/mpeg">
+      </audio>
+      <audio controls class="h-0" id="congra_sound">
+        <source allow="autoplay" muted="muted" src="/sound/congra.mp3" type="audio/mpeg">
+      </audio>
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "broker",
+  "version": "1.0.0",
+  "description": "BROKER MQTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "author": "Tr",
+  "license": "ISC",
+  "dependencies": {
+    "aedes": "^0.51.3",
+    "npm-check-updates": "^17.1.3"
+  }
+}

@@ -1,0 +1,8 @@
+idf/
+build/
+test_mesh/
+sdkconfig
+sdkconfig.old
+Mc-workspace.code-workspace
+node_modules/
+.vscode/

@@ -1,0 +1,14 @@
+.row.gold {
+    display: flex;
+    flex-direction: row;
+}
+
+.gold-item {
+    width: 10%;
+}
+
+.gold-item img {
+    width: 50px;
+    height: 50px;
+    display:hidden;
+}

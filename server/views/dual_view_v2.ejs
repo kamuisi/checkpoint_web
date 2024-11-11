@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>UIT Car Racing</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/logo/hinhxe.png">
+  <link rel="stylesheet" href="module/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/img.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/dual_css.css">
+  <link rel="stylesheet" type="text/css" href="/output.css">
+
+  <link rel="stylesheet" href="module/fontawesome/css/all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <script type="text/javascript" src="jquery.js"></script>
+  <script src="module/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+  <audio controls class="h-0" id="start_sound">
+    <source allow="autoplay" muted="muted" src="/sound/start.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls class="h-0" id="car_start_sound">
+    <source allow="autoplay" muted="muted" src="/sound/carstart.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls class="h-0" id="eli_sound">
+    <source allow="autoplay" muted="muted" src="/sound/eliminated.mp3" type="audio/mpeg">
+  </audio>
+  <audio controls class="h-0" id="congra_sound">
+    <source allow="autoplay" muted="muted" src="/sound/congra.mp3" type="audio/mpeg">
+  </audio>
+  <div class="flex flex-col relative h-screen">
+    <div class="flex flex-col h-full z-20 px-20 pt-6 gap-8">
+      <div class="flex flex-row justify-center w-full relative">
+        <div class="flex flex-col items-center gap-4 absolute left-0 ">
+          <p class="text-[32px] text-[#fff]">ĐƠN VỊ TỔ CHỨC</p>
+          <div class="flex flex-row items-center gap-10">
+            <div class="flex flex-col gap-4 items-center justify-center">
+              <div class="flex flex-row logo-height gap-5">
+                <img class="w-auto h-full object-cover" src="./logo/logo_doan.png" />
+                <img class="w-auto h-full object-cover" src="./logo/logo_uit.png" />
+              </div>
+              <p class="text-[18px] text-[#fff]">TRƯỜNG ĐH CÔNG NGHỆ THÔNG TIN</p>
+            </div>
+            <div class="flex flex-col gap-4 items-center justify-center">
+              <img class="w-auto logo-height object-cover" src="./logo/logo_doan.png" />
+              <p class="text-[18px] text-[#fff]">TP. THỦ ĐỨC</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-4 ">
+          <p class="text-[32px] text-[#fff]">ĐƠN VỊ THỰC HIỆN</p>
+          <div class="flex flex-row logo-height gap-12">
+            <img class="w-auto h-full object-cover" src="./logo/logo_ceec.png" />
+            <img class="w-auto h-full object-cover" src="./logo/logo_ce_uit.png" />
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-4 absolute right-0">
+          <p class="text-[32px] text-[#fff]">NHÀ TÀI TRỢ</p>
+          <img class="w-auto logo-height object-cover" src="./logo/logo_gara_stem.png" />
+        </div>
+      </div>
+      <div class="flex flex-row w-full relative gap-[10px]">
+        <div class="flex flex-col relative pt-[3vh] w-[25%] min-w-[25%] gap-3">
+          <div
+            class="w-full text-[24px] p-3 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[50px] text-center flex items-center justify-center overflow-hidden"
+            id="team-name-id">
+            <br><strong id='nameofteam'></strong>
+            <div class="py-4 px-[100px] rotate-45 bg-[#ffffffb6] border-solid border-[1px] text-[#ff0000] z-20 absolute"
+              id="team1"></div>
+          </div>
+          <div class="flex flex-col relative">
+            <div class="flex flex-col items-center justify-center m-auto text-center gap-3">
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>1</span></div>
+                <span id="timecp1"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint2" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>2</span></div>
+                <span id="timecp2"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint3" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>3</span></div>
+                <span id="timecp3"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint4" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>4</span></div>
+                <span id="timecp4"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint5" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>5</span></div>
+                <span id="timecp5"></span>
+              </div>
+            </div>
+            <div class="flex flex-col absolute" id="win1">
+              <p class="text-[50px] text-[#ffed00] ml-20 rotate-45 font-[Monoton]">
+                WINNER</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row w-full h-[17%] overflow-hidden logo-competition items-center justify-center gap-6">
+          <img class="w-[25%] min-w-[25%] h-auto" src="./logo/next.svg" />
+          <img class="w-auto h-full" src="./logo/logoITCAR.png" />
+          <img class="w-[25%] min-w-[25%] h-auto rotate-180" src="./logo/next.svg" />
+        </div>
+
+        <div class="flex flex-col pt-[3vh] w-[25%] min-w-[25%] gap-3">
+          <div
+            class="w-full text-[24px] p-3 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[50px] text-center flex items-center justify-center overflow-hidden"
+            id="team-name-id-1">
+            <br><strong id='nameofteam-1'></strong>
+            <div class="py-4 px-[100px] rotate-45 bg-[#ffffffb6] border-solid border-[1px] text-[#ff0000] z-20 absolute"
+              id="team2"></div>
+
+          </div>
+          <div class="flex flex-col relative">
+            <div class="flex flex-col items-center justify-center m-auto text-center gap-3">
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint1-1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>1</span></div>
+                <span id="timecp1-1"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint2-1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>2</span></div>
+                <span id="timecp2-1"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint3-1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>3</span></div>
+                <span id="timecp3-1"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint4-1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>4</span></div>
+                <span id="timecp4-1"></span>
+              </div>
+              <div class="flex flex-row gap-3 items-center">
+                <div id="checkpoint5-1" class="flex flex-col bg-[#bbb] px-8 py-2 rounded-[8px]"><span>5</span></div>
+                <span id="timecp5-1"></span>
+              </div>
+            </div>
+            <div class="flex flex-col absolute" id="win2">
+              <p class="text-[50px] text-[#ffed00]  ml-20  rotate-45 font-[Monoton]">
+                WINNER</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col w-full h-full absolute z-20 justify-end">
+      <div class="flex flex-row w-full h-full gap-[60vh] absolute  items-center justify-center">
+        <p id="result" class="text-[100px] text-[#fff]">0</p>
+        <p id="result-1" class="text-[100px] text-[#fff]">0</p>
+      </div>
+      <div class="flex flex-col w-full items-center pb-4">
+        <div id="timerCount" class="text-[150px] text-[#7fff00] timer pb-0 mb-0"></div>
+        <div class="flex flex-row items-center justify-center gap-5 w-full z-20" id="btnStartStop">
+          <div class="flex flex-row items-center justify-end w-full">
+            <strong id="turn" class="text-[5px 5px 5px rgb(0, 0, 0)] text-[#ffd700] text-[60px] absolute">
+              Lượt 1
+            </strong>
+          </div>
+
+          <button id="start" class="btn btn-success my-btn items-center min-w-[15%] " data-toggle="modal">BẮT
+            ĐẦU</button>
+          <div class="flex flex-row items-center w-full">
+            <button class="text-[4vw] background-[#000] text-[#6e6d68] fas fa-redo-alt absolute" id='restart'></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img class="w-full h-screen absolute z-10" src="./logo/background.jpg" />
+  </div>
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 50%;">
+        <div class="modal-body" style="min-height: 40vh;">
+          <div class="counter">
+            <div class="nums">
+              <span class="in">3</span>
+              <span>2</span>
+              <span>1</span>
+              <span>0</span>
+            </div>
+            <h4>Get Ready</h4>
+          </div>
+          <div class="final">
+            <h1 style="font-size: 11vw; color:  #3498db;">GO</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</body>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/assets/js/process_dual_view.js"></script>
+
+</html>

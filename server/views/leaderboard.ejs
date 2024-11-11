@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <link rel="icon" type="image/x-icon" href="/logo/cup.png">
+  <link rel="stylesheet" type="text/css" href="/assets/css/img.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/dual_css.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/leaderboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+  <title>Leader Board</title>
+  <link rel="stylesheet" type="text/css" href="/output.css">
+
+</head>
+
+<body>
+  <div class="flex flex-col gap-5 w-full relative">
+    <div class="flex flex-col h-full z-20 px-20 pt-6 gap-8">
+      <div class="flex flex-row justify-center w-full relative">
+        <div class="flex flex-col items-center gap-4 absolute left-0 ">
+          <p class="text-[32px] text-[#fff]">ĐƠN VỊ TỔ CHỨC</p>
+          <div class="flex flex-row items-center gap-10">
+            <div class="flex flex-col gap-4 items-center justify-center">
+              <div class="flex flex-row logo-height gap-5">
+                <img class="w-auto h-full object-cover" src="./logo/logo_doan.png" />
+                <img class="w-auto h-full object-cover" src="./logo/logo_uit.png" />
+              </div>
+              <p class="text-[18px] text-[#fff]">TRƯỜNG ĐH CÔNG NGHỆ THÔNG TIN</p>
+            </div>
+            <div class="flex flex-col gap-4 items-center justify-center">
+              <img class="w-auto logo-height object-cover" src="./logo/logo_doan.png" />
+              <p class="text-[18px] text-[#fff]">TP. THỦ ĐỨC</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-4 ">
+          <p class="text-[32px] text-[#fff]">ĐƠN VỊ THỰC HIỆN</p>
+          <div class="flex flex-row logo-height gap-12">
+            <img class="w-auto h-full object-cover" src="./logo/logo_ceec.png" />
+            <img class="w-auto h-full object-cover" src="./logo/logo_ce_uit.png" />
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-4 absolute right-0">
+          <p class="text-[32px] text-[#fff]">NHÀ TÀI TRỢ</p>
+          <img class="w-auto logo-height object-cover" src="./logo/logo_gara_stem.png" />
+        </div>
+      </div>
+
+    </div>
+    <div id="root" class="grid grid-cols-4 gap-10 px-20 z-20 pt-10">
+    </div>
+    <img class="w-full h-full min-h-screen absolute z-10" src="./logo/background.jpg" />
+  </div>
+</body>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/assets/js/leaderboard.js"></script>
+
+</html>

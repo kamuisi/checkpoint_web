@@ -1,0 +1,1 @@
+Open Checkpoint.html by draw.io to see architecture

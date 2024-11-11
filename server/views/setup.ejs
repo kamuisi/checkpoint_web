@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Setup Esp</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="/logo/CEEC.png">
+	<link rel="stylesheet" type="text/css" href="/assets/css/setup.css">
+    <link rel="stylesheet" href="module/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="module/fontawesome/css/all.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+
+	<script type="text/javascript" src="jquery.js"></script>
+    <script src="module/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/assets/js/setup.js"></script>
+
+	<style>
+		
+		</style>
+</head>
+
+<body class="row" >
+	<div id = "connection" class="col-md-2">
+		<h3>Connection:</h3>
+		<div id ="espbg1">Node 01: <span id="esp1"></span></div>
+		<div id ="espbg2">Node 02: <span id="esp2"></span></div>
+		<div id ="espbg3">Node 03: <span id="esp3"></span></div>
+		<div id ="espbg4">Node 04: <span id="esp4"></span></div>
+		<div id ="espbg5">Node 05: <span id="esp5"></span></div>
+		<div id ="espbg6">Node 06: <span id="esp6"></span></div>
+		<div id ="espbg7">Node 07: <span id="esp7"></span></div>
+		<div id ="espbg8">Node 08: <span id="esp8"></span></div>
+		<div id ="espbg9">Node 09: <span id="esp9"></span></div>
+		<div id ="espbg10">Node 10: <span id="esp10"></span></div>
+		<!-- <h5>Last sent: <span id="lastsent"></span></h5>
+		<input placeholder="IP" type = "text" id="ip">
+		<button id="ipbt" style="margin-top: 4px;">Save IP</button> -->
+	</div>
+	<div id = "setup" class="col-md-10">
+		<div class="row">
+			<%
+		var mapHtml = '';
+		var timeHtml = '';
+		for(var iCp=1; iCp<=maxCheckPoints; iCp++) {
+			mapHtml += 	'<p class="col-md-3" id="esp-setup'+iCp+'">Check point '+iCp+': ';
+			
+			mapHtml += 	'<span id="normalnow'+iCp+'"></span>';
+			mapHtml += '<br><button id="button-range'+iCp+'">Send esp </button>';
+			mapHtml += '<button style="margin-left: 4px; margin-bottom: 4px;" id="button-check'+iCp+'">Check esp </button>';
+			mapHtml +=	'<br><input placeholder="Range sensor" type="number" value="100" id="range'+iCp+'" style="margin-bottom: 4px;">';
+			mapHtml += '<br><button id="button'+iCp+'">Set checkpoint '+iCp+'</button>';
+			mapHtml += '</p>';
+		}
+		<!-- timeHtml += 'p<p class="col-md-3" id="esp-setup'+iCp+'">Check point '+iCp+':'; -->
+		%>
+			<%- mapHtml %>
+			<!-- <%- timeHtml %> -->
+			<div>
+				<input type="number" placeholder="light node" value="10" class="input-led" id="light-node">
+				<!-- <input type="number" placeholder="yellow time" value="10" class="input-led" id="yellow-led">
+				<input type="number" placeholder="red time" value="10" class="input-led" id="red-led"> -->
+				<button id="setLightNode">Set light Node</button>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="col-md-8">
+		<h3>Team:</h3>
+		<div class="error text-center mt-3" style="background-color: #dc3442;"  ></div>
+		<div class="row">
+		  <div class="col-sm">
+		  <button class="accordion mb-2">Add team:</button>
+		  <form class="form">   
+			<input type="text" id="name" placeholder="Name" class="form-control " required /><br />
+			<input type="text" id="group" placeholder="Group" class="form-control " /><br />
+			<input type="text" id="image" placeholder="Image" class="form-control " /><br />
+			<button class="btn btn-lg btn-primary btn-block mb-3" id="buttonAdd" type="submit">Add team</button>
+		  </form>
+		  </div>
+		  <div class="col-sm">
+			<button class="accordion mb-2">Delete team:</button>
+			<form class="delForm" id="delForm">   
+				<input type="text" id="delId" placeholder="Name" class="form-control " required /><br />
+				<button class="btn btn-lg btn-primary btn-block mb-3" id="buttonDl" type="submit">Delete team</button>
+			</form>
+			<!-- <button class="accordion mb-2">Update team:</button>
+			<form class="updtForm"> 
+				<input type="text" id="updateName" placeholder="Name" class="form-control" required /><br />
+				<input type="text" id="updateGroup" placeholder="Group" class="form-control " /><br />
+				<button class="btn btn-lg btn-primary btn-block" id="buttonUd" type="submit">Update team</button><br />
+			</form> -->
+			</div>
+		</div>
+	</div>
+	<div id = "TeamSetup" class="col-md-4">
+		<h3>Team setup:</h3>
+		<div>
+			<select id="team1">
+			</select>
+			<select id="team2">
+			</select>
+			<button id="change" style="margin-top: 5px;">Change</button>
+		</div>
+		<!-- <h4>Start at:</h4>
+		<label for="team1side">Cp1: </label>
+		<div id="team1side"></div>
+		<label for="team2side">Cp6: </label>
+		<div id="team2side"></div>
+		<button id="toggle">Change Team Side</button> -->
+	</div>
+	<!-- <div class="col-md-12">
+		<h3>Flow - Type Node:</h3>
+		<h4>Flow:</h4>
+		<input class="col-md-1" placeholder="1" id="flow1">
+		</input>
+		<input class="col-md-1" placeholder="2" id="flow2">
+		</input>
+		<input class="col-md-1" placeholder="3" id="flow3">
+		</input>
+		<input class="col-md-1" placeholder="4" id="flow4">
+		</input>
+		<input class="col-md-1" placeholder="5" id="flow5">
+		</input>
+		<input class="col-md-1" placeholder="6" id="flow6">
+		</input>
+		<input class="col-md-1" placeholder="7" id="flow7">
+		</input>
+		<input class="col-md-1" placeholder="8" id="flow8">
+		</input>
+		<input class="col-md-1" placeholder="9" id="flow9">
+		</input>
+		<input class="col-md-1" placeholder="10" id="flow10">
+		</input>
+		<h4>Type node (normal, stop, end):</h4>	
+		<input class="col-md-1" placeholder="normal" id="type1">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type2">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type3">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type4">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type5">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type6">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type7">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type8">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type9">
+		</input>
+		<input class="col-md-1" placeholder="normal" id="type10">
+		</input>
+		<button class="col-md-2" id = "flow" style="margin-top: 10px;">Change flow & type node</button>
+	</div> -->
+	
+	
+</body>
+</html>
