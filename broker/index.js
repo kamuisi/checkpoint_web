@@ -1,10 +1,11 @@
 const aedes = require('aedes')({id: "ITCar_Broker"})
 const server = require('net').createServer(aedes.handle)
-const port = 1883;
-// const ip = "192.168.1.147"
-// const ip = "192.168.0.111"
-const ip = "192.168.1.5";
-// const ip = "localhost"
+const dotenv = require('dotenv');
+dotenv.config({path: '../server/config/config.env'});
+
+const port = process.env.mqttport;
+const ip = process.env.hostIP;
+
 server.listen(port, ip, function () {
   console.log('Server Mqtt started and listening on host', ip,' and port', port, '.')
 })

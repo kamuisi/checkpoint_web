@@ -1,6 +1,8 @@
 var mqtt = require('mqtt');
-var config = require('../config/config')
-var client = mqtt.connect('mqtt://' + config.host + ":" + config.mqttPort, {
+// var config = require('../config/config')
+const dotenv = require('dotenv');
+dotenv.config({path: './config/config.env'});
+var client = mqtt.connect('mqtt://' + process.env.hostIP + ":" + process.env.mqttport, {
     clientId: 'Server_Client',
     reconnectPeriod: 1000,
     keepalive: 300,

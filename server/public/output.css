@@ -549,6 +549,10 @@ video {
   z-index: 20;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -969,6 +973,20 @@ video {
     text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
+.text-outline-green {
+  color: #c800ff;
+  text-shadow: 0px 0px 6px rgba(200, 0, 255, 0.6);
+}
+
 #restart:focus, #restart:active {
   outline: none;
+}
+
+.timer_team_layout {
+  top: 80%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between; /* Căn phần tử con ra 2 bên trái và phải */
 }

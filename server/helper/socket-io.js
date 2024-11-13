@@ -69,7 +69,10 @@ module.exports = function (io, mqtt, activeNode, lightNode, startTime) {
         })
         socket.on("team-score-record", async(data) =>{
             db.addRecordScore(data)
-            // console.log(data)
+            db.getScore((scores)=>{
+                io.sockets.emit('score-record',scores)
+            });
+            console.log(data)
         })
         socket.on("get-team-score-record",()=>{
             db.getScore((scores)=>{
@@ -134,11 +137,11 @@ module.exports = function (io, mqtt, activeNode, lightNode, startTime) {
         socket.on('outline2',()=>{
             io.sockets.emit('_outline2')
         })
-        socket.on('subcheckpoint1',(data)=>{
-            io.sockets.emit('_subcheckpoint1', data)
+        socket.on('ignorecheckpoint1',(data)=>{
+            io.sockets.emit('_ignorecheckpoint1', data)
         })
-        socket.on('subcheckpoint2',(data)=>{
-            io.sockets.emit('_subcheckpoint2', data)
+        socket.on('ignorecheckpoint2',(data)=>{
+            io.sockets.emit('_ignorecheckpoint2', data)
         })
         socket.on('Connection-refresh',()=>{
             mqtt.refreshConnection();

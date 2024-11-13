@@ -15,16 +15,16 @@ var that = (module.exports = {
       maxCheckPoints: process.env.maxCheckPoints,
     });
   },
-  scoreBoard: async (req, res, next) => {
-    res.render(__basedir + "/views/scoreboard.ejs", {
-      maxCheckPoints: process.env.maxCheckPoints,
-    });
-  },
+  // scoreBoard: async (req, res, next) => {
+  //   res.render(__basedir + "/views/scoreboard.ejs", {
+  //     maxCheckPoints: process.env.maxCheckPoints,
+  //   });
+  // },
   dualPage: async (req, res, next) => {
     res.render(__basedir + "/views/dual_v3.ejs");
   },
   mainPage: async (req, res, next) => {
-    res.render(__basedir + "/views/scoreboard_view.ejs");
+    res.render(__basedir + "/views/scoreboard_view_v2.ejs");
   },
   addTeam: async (data) => {
     try {
@@ -133,12 +133,9 @@ var that = (module.exports = {
   },
   addRecordScore: async (data) => {
     try {
-      await score.collection.deleteMany();
-      const newScore = new score({
-        scores: data
-      });
-      await newScore.save();
-      // console.log({ message: "Add score Successfully" });
+      var new_score = await score.findOneAndUpdate({team_name: data.team_name}, {cp: data.cp, time_finish: data.time_finish, score: data.score}, 
+      {new: true, upsert: true});
+      // console.log(new_score);
     } catch (err) {
       console.log({ error: err });
     }

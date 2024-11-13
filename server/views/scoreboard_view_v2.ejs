@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>UIT Car Racing</title>
+
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="/logo/hinhxe.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="module/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/scoreboard.css">
+    <link rel="stylesheet" type="text/css" href="module/fontawesome/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+    <link rel="stylesheet" type="text/css" href="/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/assets/js/scoreboard_view.js"></script>
+
+    <script type="text/javascript" src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="module/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class="flex flex-col relative h-screen">
+        <div class="z-20 space_top justify-content-between w-full">
+            <div class="board top-left column0" id="board0">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"
+                    id="team-name-id">
+                    <img class="w-auto h-[40px] p-1" style="background-color: aliceblue; border-radius: 15px;"
+                        src="logo/UIT/logoUIT.png">
+                    <br><strong class="pl-2" id="nameofteam-0">team1</strong>
+                </div>
+                <div class="column2 text-center">
+                    <div class="positive" id="main-plus-0-0"><label>Số checkpoint hoàn thành: </label><span
+                            id="plus-0-0"> 0</span></div>
+                    <div class="positive" id="main-plus-0-1"><label>Tuân thủ biển báo: </label><span id="plus-0-1">
+                            0</span></div>
+                    <div class="positive" id="main-plus-0-2"><label>Tuân thủ đèn giao thông: </label><span
+                            id="plus-0-2"> 0</span></div>
+                </div>
+            </div>
+            <div class="board top-right column0" id="board1">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"
+                    id="team-name-id">
+                    <img class="w-auto h-[40px] p-1" style="background-color: aliceblue; border-radius: 15px;"
+                        src="logo/UIT/logoUIT.png">
+                    <br><strong class="pl-2" id="nameofteam-1">team2</strong>
+                </div>
+                <div class="column2 text-center">
+                    <div class="positive" id="main-plus-1-0"><label>Số checkpoint hoàn thành: </label><span
+                            id="plus-1-0"> 0</span></div>
+                    <div class="positive" id="main-plus-1-1"><label>Tuân thủ biển báo: </label><span id="plus-1-1">
+                            0</span></div>
+                    <div class="positive" id="main-plus-1-2"><label>Tuân thủ đèn giao thông: </label><span
+                            id="plus-1-2"> 0</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="z-20 space_bottom justify-content-between w-full">
+            <div class="board top-left column0" id="board2">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"
+                    id="team-name-id">
+                    <img class="w-auto h-[45px] p-1" style="background-color: aliceblue; border-radius: 5px;"
+                        src="logo/HCMUTE.png">
+                    <br><strong class="pl-2" id="nameofteam-2">team3</strong>
+                </div>
+                <div class="column2 text-center">
+                    <div class="positive" id="main-plus-2-0"><label>Số checkpoint hoàn thành: </label><span
+                            id="plus-2-0"> 0</span></div>
+                    <div class="positive" id="main-plus-2-1"><label>Tuân thủ biển báo: </label><span id="plus-2-1">
+                            0</span></div>
+                    <div class="positive" id="main-plus-2-2"><label>Tuân thủ đèn giao thông: </label><span
+                            id="plus-2-2"> 0</span></div>
+                </div>
+            </div>
+            <div class="board top-right column0" id="board3">
+                <div class="w-full text-[25px] p-2 border-[#ffd700] border-solid border-[3px] text-[#ffd700] rounded-[30px] text-center flex items-center justify-center overflow-hidden"
+                    id="team-name-id">
+                    <img class="w-auto h-[40px] p-1 " style="background-color: aliceblue; border-radius: 5px;"
+                        src="logo/fpt.png">
+                    <br><strong class="pl-2" id="nameofteam-3">team4</strong>
+                </div>
+                <div class="column2 text-center">
+                    <div class="positive" id="main-plus-3-0"><label>Số checkpoint hoàn thành: </label><span
+                            id="plus-3-0"> 0</span></div>
+                    <div class="positive" id="main-plus-3-1"><label>Tuân thủ biển báo: </label><span id="plus-3-1">
+                            0</span></div>
+                    <div class="positive" id="main-plus-3-2"><label>Tuân thủ đèn giao thông: </label><span
+                            id="plus-3-2"> 0</span></div>
+                </div>
+            </div>
+        </div>
+        <img class="w-full h-screen absolute z-10" src="./logo/background_2.jfif" />
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 50%;">
+                <div class="modal-body" style="min-height: 40vh;">
+                    <div class="counter">
+                        <div class="nums">
+                            <span class="in">3</span>
+                            <span>2</span>
+                            <span>1</span>
+                            <span>0</span>
+                        </div>
+                        <h4>Get Ready</h4>
+                    </div>
+                    <div class="final">
+                        <h1 style="font-size: 11vw; color:  #3498db;">GO</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio controls class="h-0" id="start_sound">
+        <source allow="autoplay" muted="muted" src="/sound/start.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls class="h-0" id="car_start_sound">
+        <source allow="autoplay" muted="muted" src="/sound/carstart.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls class="h-0" id="checkpoint_passed">
+        <source allow="autoplay" muted="muted" src="/sound/checkpoint_passed.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls class="h-0" id="eli_sound">
+        <source allow="autoplay" muted="muted" src="/sound/eliminated.mp3" type="audio/mpeg">
+    </audio>
+    <audio controls class="h-0" id="congra_sound">
+        <source allow="autoplay" muted="muted" src="/sound/congra.mp3" type="audio/mpeg">
+    </audio>
+
+</body>
+
+</html>

@@ -10,14 +10,13 @@ const mongoose = require('mongoose');
 // System time
 var startTime = process.hrtime();
 // Import evironment variables
-const config = require('./config/config');
 const dotenv = require('dotenv');
 
 appExpress.use(express.json())
 // const { setLight } = require('./mqtt/mqtt');
 //Import socket io
 var io = require("socket.io")(server);
-dotenv.config();
+dotenv.config({path: './config/config.env'});
 // Using ejs as a tool simulate HTML
 appExpress.set("view engine", "ejs");
 // Add router for ejs
@@ -67,10 +66,11 @@ mongoose
     .connect(URI)
     .then(() => {
         console.log("Connected to db")
-        appPort = config.port;
-        appHost = config.host;
+        appPort = process.env.port;
+        appHost = process.env.hostIP;
         server.listen(appPort, appHost, () => {
             console.log(`Server listening at host ${appHost} port ${appPort}`);
+
             // setInterval(() => {
             //     setTimeout(() => {
             //         mqtt.setLight({ light: "yellow" })

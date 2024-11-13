@@ -16,7 +16,7 @@ module.exports = function (io, startTime,lightNode,mqtt) {
   router.get("/setup", setupPage);
   router.get("/dual", dualPage);
   router.get("/leaderBoard", leaderBoard);
-  router.get("/scoreBoard", scoreBoard);
+  // router.get("/scoreBoard", scoreBoard);
   router.post("/add_flow", addFlow);
   router.post("/send-data", (req, res, next) => {
     try {
