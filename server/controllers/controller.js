@@ -33,7 +33,7 @@ var that = (module.exports = {
         group: data.group,
         image_link: data.image_link,
         score: 0,
-        numcheckpoint: 0 
+        numcheckpoint: 0
       });
 
       console.log({ message: "Add user Successfully" });
@@ -62,7 +62,7 @@ var that = (module.exports = {
         console.log({ error: err });
       });
   },
-    addFlow: async (data) => {
+  addFlow: async (data) => {
     try {
       flow.collection.deleteMany();
       const newFlow = new flow({
@@ -105,50 +105,56 @@ var that = (module.exports = {
     try {
       console.log(data)
       await team
-      .findOne({name: data[0].name})
-      .select("name score numcheckpoint -_id")
-      .then(async (respond) => {
-        let updateData = ({
-          score : ((data[0].result == 'w') ? 3 : ((data[0].result == 'l') ? 0 : 1))  + respond.score,
-          numcheckpoint: data[0].numcp + respond.numcheckpoint,
+        .findOne({ name: data[0].name })
+        .select("name score numcheckpoint -_id")
+        .then(async (respond) => {
+          let updateData = ({
+            score: ((data[0].result == 'w') ? 3 : ((data[0].result == 'l') ? 0 : 1)) + respond.score,
+            numcheckpoint: data[0].numcp + respond.numcheckpoint,
+          })
+          await team.findOneAndUpdate({ name: data[0].name }, { $set: updateData })
+          // console.log(respond)
         })
-        await team.findOneAndUpdate({name: data[0].name}, {$set:updateData})
-        // console.log(respond)
-      })
       await team
-      .findOne({name: data[1].name})
-      .select("name score numcheckpoint -_id")
-      .then(async (respond) => {
-        let updateData1 = ({
-          score : ((data[1].result == 'w') ? 3 : ((data[1].result == 'l') ? 0 : 1))  + respond.score,
-          numcheckpoint: data[1].numcp + respond.numcheckpoint,
+        .findOne({ name: data[1].name })
+        .select("name score numcheckpoint -_id")
+        .then(async (respond) => {
+          let updateData1 = ({
+            score: ((data[1].result == 'w') ? 3 : ((data[1].result == 'l') ? 0 : 1)) + respond.score,
+            numcheckpoint: data[1].numcp + respond.numcheckpoint,
+          })
+          await team.findOneAndUpdate({ name: data[1].name }, { $set: updateData1 })
+          console.log(data[1].name)
         })
-        await team.findOneAndUpdate({name: data[1].name}, {$set:updateData1})
-        console.log(data[1].name)
-      })
       console.log({ message: "Add teamweb Successfully !" });
-      } catch (err) {
-        console.log({ error: err });
-      }
-  },
-  addRecordScore: async (data) => {
-    try {
-      var new_score = await score.findOneAndUpdate({team_name: data.team_name}, {cp: data.cp, time_finish: data.time_finish, score: data.score}, 
-      {new: true, upsert: true});
-      // console.log(new_score);
     } catch (err) {
       console.log({ error: err });
     }
   },
-  getScore: (callback) => {
-    score
-      .find()
-      .then((respond) => {
-        // console.log(respond)
-        return callback(respond);
-      })
-      .catch((err) => {
-        console.log({ error: err });
-      });
+  addRecordScore: async (data) => {
+    try {
+      if (data.flag_change != true) {
+        var old_score = await score.findOne({team_name: data.team_name});
+        console.log(old_score.team_name);
+        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score },
+          { new: true, upsert: true });
+        // console.log(new_score);
+      }
+      else {
+        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score },
+          { new: true, upsert: true });
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
+  },
+  getScore: async (data, callback) => {
+    try {
+      const respond = await score.findOne({ team_name: data.team_name });
+      // console.log(respond);
+      callback(respond);
+    } catch (err) {
+      console.log({ error: err });
+    }
   },
 });

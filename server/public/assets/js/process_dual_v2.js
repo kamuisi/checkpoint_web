@@ -294,24 +294,24 @@ $.when(
 
             socket.on("_outline1", () => {
                 if (team1nstop) {
-                    updateBonus(0);
                     socket.emit("team-score-record", {
                         team_name: currentTeam,
                         cp: currentCheckpoint1 - ignore_checkpoint1,
                         time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
                         score: score_team1 + score_bonus_1
                     })
+                    updateBonus(0);
                 }
             })
             socket.on("_outline2", () => {
                 if (team2nstop) {
-                    updateBonus(1);
                     socket.emit("team-score-record", {
                         team_name: currentTeam1,
                         cp: currentCheckpoint2 - ignore_checkpoint2,
                         time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
                         score: score_team2 + score_bonus_2
                     })
+                    updateBonus(1);
                 }
             })
             socket.on("_ignorecheckpoint1", () => {
@@ -700,7 +700,7 @@ $.when(
                         "0 1px 18px 10px rgba(255, 255, 0, 0.219), 0 6px 20px 0  rgba(255, 255, 0, 0.219)",
                 });
                 $("#bonus_point" + (team != 1 ? "" : "-1")).text(
-                    "100"
+                    (team != 1 ? score_bonus_1 : score_bonus_2)
                 );
                 $("#bonus_point" + (team != 1 ? "" : "-1")).css({ color: "#ffff00" });
             }

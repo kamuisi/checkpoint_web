@@ -12,6 +12,7 @@ $.getScript('./configClient/config.js', function () {
 .done(() => {
 	$(document).ready(function () {
 		const form = document.querySelector('form')
+		const changeForm = document.querySelector('#changeForm')
 		const delForm = document.querySelector('#delForm')
 		const errorMessage = document.querySelector('.error')
 		const setTimeBtn = document.querySelector('#setLightTime')
@@ -123,6 +124,20 @@ $.getScript('./configClient/config.js', function () {
 			try {
 				socket.emit("AddTeam", { name: $('#name').val(), group: $('#group').val(), image_link: $('#image').val() })
 				errorMessage.textContent = 'Sent request (Add team: ' + $('#name').val() + ') !';
+				setTimeout(() => {
+					errorMessage.textContent = '';
+				}, 1.5 * 1000);
+			} catch (err) {
+				console.log(err.message)
+			}
+		})
+		changeForm.addEventListener('submit', async (e) => {
+			e.preventDefault()
+			try {
+				socket.emit("team-score-record", {team_name: $('#TeamName').val(), cp: $('#QuanCheckpoint').val(), 
+					score: $('#TeamScore').val(), time_finish: $('#TimeFinish').val()
+				})
+				errorMessage.textContent = '';
 				setTimeout(() => {
 					errorMessage.textContent = '';
 				}, 1.5 * 1000);

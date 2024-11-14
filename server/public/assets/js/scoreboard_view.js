@@ -70,15 +70,30 @@ $.when(
       // $("#team2").css({ 'display': 'none' })
       // $("#team1").html("OUT TURN");
       // $("#team2").html("OUT TURN");
-      /* cap nhat ten doi moi */
-
-      $("#nameofteam-0").html(teamName[0]);
-      $("#nameofteam-1").html(teamName[1]);
-      $("#nameofteam-2").html(teamName[2]);
-      $("#nameofteam-3").html(teamName[3]);
 
       socket.on("score-record", (data) => {
-        
+        // console.log(data);
+        var team_num = teamName.indexOf(data.team_name);
+        $("#plus-" + team_num + "-0").text(" " + data.cp);
+        $("#plus-" + team_num + "-0").css({color: "#7FFF00"});
+        $("#plus-" + team_num + "-1").text(" " + data.time_finish);
+        $("#plus-" + team_num + "-1").css({color: "#7FFF00"});
+        $("#plus-" + team_num + "-2").text(" " + data.score);
+        $("#plus-" + team_num + "-2").css({color: "#7FFF00"});
+      });
+
+      socket.emit("GetTeam");
+
+      /* cap nhat ten doi moi */
+      socket.on("ListTeam", (data) => {
+        // console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          teamName[i] = data[i].name;
+        }
+        $("#nameofteam-0").html(teamName[0]);
+        $("#nameofteam-1").html(teamName[1]);
+        $("#nameofteam-2").html(teamName[2]);
+        $("#nameofteam-3").html(teamName[3]);
       });
     });
   });

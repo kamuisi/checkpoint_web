@@ -339,9 +339,10 @@
   }
 }
 .board{
-  background: rgba(0, 0, 0, 0.5);
-	border-collapse: collapse;
+  background-color: #4d4d4d; /* Màu nền xám */
+  padding: 15px;
   border-radius:30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8); /* Tạo đổ bóng nhẹ để nổi bật */
 }
 .top-left{
   width: 45%;
@@ -412,7 +413,7 @@
   box-sizing: border-box;
 }
 .column0 {
-  width: 30%;
+  width: 40%;
   padding: 10px;
   margin-top: 15px;
   margin-left: 40px;
@@ -437,7 +438,7 @@
   clear: both;
 }
 .positive{
-  color: #6aff6f;
+  color: white;
   font: 22px sans-serif;
 }
 .negative{
