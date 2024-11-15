@@ -141,6 +141,12 @@ module.exports = function (io, mqtt, activeNode, lightNode, startTime) {
         socket.on('outline2', () => {
             io.sockets.emit('_outline2')
         })
+        socket.on('bonus1', () => {
+            io.sockets.emit('_bonus1')
+        })
+        socket.on('bonus2', () => {
+            io.sockets.emit('_bonus2')
+        })
         socket.on('ignorecheckpoint1', (data) => {
             io.sockets.emit('_ignorecheckpoint1', data)
         })

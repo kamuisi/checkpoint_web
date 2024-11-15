@@ -5,6 +5,7 @@ var startTick = 0;
 var currentTick = 0;
 var teamSide = false;
 var socket = null;
+var listteamflag = true;
 
 $.getScript('./configClient/config.js', function () {
 	socket = io('http://' + hostIP + ':' + port);
@@ -73,11 +74,17 @@ $.getScript('./configClient/config.js', function () {
 			$('#esp' + data).css({ 'background': 'red' });
 		})
 		socket.on('ListTeam', (data) => {
-			var teamList = data;
-			teamList.forEach(element => {
-				$("#team1").append(new Option(element.name));
-				$("#team2").append(new Option(element.name));
-			})
+			if(listteamflag)
+			{
+				var teamList = data;
+				teamList.forEach(element => {
+					$("#team1").append(new Option(element.name));
+					$("#team2").append(new Option(element.name));
+					$("#TeamName").append(new Option(element.name));
+					$("#delId").append(new Option(element.name));
+				})
+				listteamflag = false;
+			}
 		});
 		socket.on('esp-send', (data) => {
 			console.log(data);
@@ -135,7 +142,7 @@ $.getScript('./configClient/config.js', function () {
 			e.preventDefault()
 			try {
 				socket.emit("team-score-record", {team_name: $('#TeamName').val(), cp: $('#QuanCheckpoint').val(), 
-					score: $('#TeamScore').val(), time_finish: $('#TimeFinish').val()
+					time_finish: $('#TimeFinish').val(), outline: $('#Outline').val(), score: $('#TeamScore').val()
 				})
 				errorMessage.textContent = '';
 				setTimeout(() => {

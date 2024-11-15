@@ -18,12 +18,16 @@ var ignore_checkpoint1 = 0;
 var ignore_checkpoint2 = 0;
 var numCheckpointt1 = 0;
 var numCheckpointt2 = 0;
+var outline_flag_1 = false;
+var outline_flag_2 = false;
+var outline_time_Team1 = 0;
+var outline_time_Team2 = 0;
 var timeTeam1 = 0;
 var timeTeam2 = 0;
 var score_team1 = 0;
 var score_team2 = 0;
-var score_bonus_1 = 15;
-var score_bonus_2 = 15;
+const Score_checkpoint = 10;
+const score_bonus = 15;
 var bonusteam1 = false;
 var bonusteam2 = false;
 var distanceTime = { minute: 0, second: 0, mil: 0 };
@@ -69,8 +73,8 @@ $.when(
             $('#win2').css({ 'display': 'none' });
             /* mac dinh chua co gi */
             $("#turn").html("Lượt " + currentTurn);
-            resetCheckpoint();
-            resetTimeDisplay();
+            resetAllCheckpoint();
+            resetAllTimeDisplay();
             resetBonus();
             $("#team1").css({ 'display': 'none' });
             $("#team2").css({ 'display': 'none' })
@@ -85,6 +89,20 @@ $.when(
             $("#btnStartStop").on("click", "#start", function () {
                 socket.emit("start");
             });
+            // code nay outline 2 lan la cook
+            // class AsyncQueue { // tao queue de xu ly critical section 
+            //     constructor() {
+            //         this.queue = Promise.resolve();
+            //     }
+
+            //     async enqueue(task) {
+            //         const result = this.queue.then(() => task());
+            //         this.queue = result.catch(() => { });
+            //         return result;
+            //     }
+            // }
+            // const queue = new AsyncQueue();
+
             socket.on("start-res", () => {
                 sound_car.play();
                 // setTimeout(() => {sound_start.play();}, 0)
@@ -107,8 +125,10 @@ $.when(
                             ignore_checkpoint2 = 0;
                             score_team1 = 0;
                             score_team2 = 0;
-                            score_bonus_1 = 15;
-                            score_bonus_2 = 15;
+                            outline_time_Team1 = 0;
+                            outline_time_Team2 = 0;
+                            outline_flag_1 = false;
+                            outline_flag_2 = false;
                             team1nstop = false;
                             team2nstop = false;
                             $("#start").removeClass("btn-success").addClass("btn-danger");
@@ -166,13 +186,15 @@ $.when(
                 timeTeam2 = 0;
                 score_team1 = 0;
                 score_team2 = 0;
-                score_bonus_1 = 15;
-                score_bonus_2 = 15;
+                outline_time_Team1 = 0;
+                outline_time_Team2 = 0;
+                outline_flag_1 = false;
+                outline_flag_2 = false;
                 team1nstop = false;
                 team2nstop = false;
                 distanceTime = { minute: 0, second: 0, mil: 0 };
-                resetCheckpoint();
-                resetTimeDisplay();
+                resetAllCheckpoint();
+                resetAllTimeDisplay();
                 resetBonus();
                 document.getElementById("timerCount").innerHTML =
                     "00" + ":" + "00" + ":" + "00";
@@ -212,15 +234,17 @@ $.when(
                 ignore_checkpoint2 = 0;
                 timeTeam1 = 0;
                 timeTeam2 = 0;
-                score_bonus_1 = 15;
-                score_bonus_2 = 15;
                 score_team1 = 0;
                 score_team2 = 0;
+                outline_time_Team1 = 0;
+                outline_time_Team2 = 0;
+                outline_flag_1 = false;
+                outline_flag_2 = false;
                 team1nstop = false;
                 team2nstop = false;
                 distanceTime = { minute: 0, second: 0, mil: 0 };
-                resetCheckpoint();
-                resetTimeDisplay();
+                resetAllCheckpoint();
+                resetAllTimeDisplay();
                 resetBonus();
                 document.getElementById("timerCount").innerHTML =
                     "00" + ":" + "00" + ":" + "00";
@@ -240,7 +264,7 @@ $.when(
                 // $('#restart').addClass('disabled');
             });
             $(document).on("keypress", function (e) {
-                if (e.which == 49) {
+                if (e.which == 49) { // bat checkpoint
                     var timeTeam =
                         distanceTime.mil +
                         distanceTime.second * 100 +
@@ -258,7 +282,7 @@ $.when(
                     //     tick: timeTeam,
                     //   });
                 }
-                if (e.which == 50) {
+                if (e.which == 50) { // bat checkpoint
                     // console.log("key 2:" + currentCheckpoint1);
                     var timeTeam =
                         distanceTime.mil +
@@ -277,41 +301,65 @@ $.when(
                         arr: [5, false, 5, false]
                     });
                 }
-                if (e.which == 55) {
-                    socket.emit("outline1");
-                }
-                if (e.which == 56) {
-                    socket.emit("outline2");
-                }
                 if (e.which == 52) {
                     socket.emit("ignorecheckpoint1");
                 }
                 if (e.which == 53) {
                     socket.emit("ignorecheckpoint2");
                 }
+                if (e.which == 55) { // tat checkpoint
+                    if (!team1nstop) {
+                        resetThisCheckpoint(1, currentCheckpoint1);
+                        resetThisTimeDisplay(1, currentCheckpoint1);
+                        if (currentCheckpoint1 >= 1) currentCheckpoint1 = currentCheckpoint1 - 1;
+                    }
+                }
+                if (e.which == 56) { // tat checkpoint
+                    if (!team2nstop) {
+                        resetThisCheckpoint(2, currentCheckpoint2);
+                        resetThisTimeDisplay(2, currentCheckpoint2);
+                        if (currentCheckpoint2 >= 1) currentCheckpoint2 = currentCheckpoint2 - 1;
+                    }
+                }
+                if (e.which == 51) {
+                    socket.emit("bonus1");
+                }
+                if (e.which == 54) {
+                    socket.emit("bonus2");
+                }
+                if (e.which == 57) {
+                    socket.emit("outline1");
+                }
+                if (e.which == 42) {
+                    socket.emit("outline2");
+                }
                 console.log(e.which);
             });
 
-            socket.on("_outline1", () => {
+            socket.on("_bonus1", () => {
+                // if (team1nstop && !outline_flag_1) { // outline 2 lan
                 if (team1nstop) {
                     socket.emit("team-score-record", {
                         team_name: currentTeam,
                         cp: currentCheckpoint1 - ignore_checkpoint1,
                         time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                        score: score_team1 + score_bonus_1
+                        score: score_team1 + score_bonus,
+                        outline: outline_time_Team2
                     })
-                    updateBonus(0);
+                    updateBonus(1);
                 }
             })
-            socket.on("_outline2", () => {
+            socket.on("_bonus2", () => {
+                // if (team2nstop && !outline_flag_2) { // outline 2 lan
                 if (team2nstop) {
                     socket.emit("team-score-record", {
                         team_name: currentTeam1,
                         cp: currentCheckpoint2 - ignore_checkpoint2,
                         time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                        score: score_team2 + score_bonus_2
+                        score: score_team2 + score_bonus,
+                        outline: outline_time_Team1
                     })
-                    updateBonus(1);
+                    updateBonus(2);
                 }
             })
             socket.on("_ignorecheckpoint1", () => {
@@ -357,10 +405,105 @@ $.when(
                 //       .split(":");
                 //     timeTeam2 =
                 //       /*parseInt(a[2]) + */ parseInt(a[1]) * 100 + parseInt(a[0]) * 60 * 100;
-                // })
-                // socket.on("send-tick", (tick) => {
-                //   startTick = tick;
-                //   console.log(startTick);
+            });
+            socket.on("_outline1", () => {
+                // code nay outline 2 lan la cook
+                // if (!outline_flag_1 && startSignal) {
+                //     outline_time_Team1 = outline_time_Team1 + 1;
+                //     if (!team1nstop) {
+                //         sound_eli.play();
+                //         team1nstop = true;
+                //         outline_flag_1 = true;
+                //         $("#team1").css({ display: "block" });
+                //         document.getElementById("timer_team_1").hidden = false;
+                //         queue.enqueue(async () => {
+                //             if (team1nstop && team2nstop) {
+                //                 startSignal = false;
+                //                 clearInterval(functionPoint);
+                //             }
+                //         });
+                //         socket.emit("team-score-record", {
+                //             team_name: currentTeam,
+                //             cp: currentCheckpoint1 - ignore_checkpoint1,
+                //             time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                //             score: score_team1,
+                //             outline: outline_time_Team1
+                //         })
+                //     }
+                // }
+                // else if (outline_flag_1 && outline_time_Team1 < 2) {
+                //     document.getElementById("timer_team_1").hidden = true;
+                //     $("#team1").css({ display: "none" });
+                //     team1nstop = false;
+                //     outline_flag_1 = false;
+                //     queue.enqueue(async () => {
+                //         if (!startSignal) {
+                //             startSignal = true;
+                //             intervalUpdateTime();
+                //         }
+                //     });
+                // }
+                if (startSignal) {
+                    outline_flag_1 = !outline_flag_1;
+                    if (outline_flag_1) {
+                        sound_eli.play();
+                        outline_time_Team1 = outline_time_Team1 + 1;
+                        $("#team1").css({ display: "block" });
+                    } 
+                    else $("#team1").css({ display: "none" });
+                }
+            })
+            socket.on("_outline2", () => {
+                // code nay outline 2 lan la cook
+                // if (!outline_flag_2 && startSignal) { 
+                //     outline_time_Team2 = outline_time_Team2 + 1;
+                //     if (!team2nstop) {
+                //         sound_eli.play();
+                //         team2nstop = true;
+                //         outline_flag_2 = true;
+                //         $("#team2").css({ display: "block" });
+                //         document.getElementById("timer_team_2").hidden = false;
+                //         queue.enqueue(async () => {
+                //             if (team1nstop && team2nstop) {
+                //                 startSignal = false;
+                //                 clearInterval(functionPoint);
+                //             }
+                //         });
+                //         socket.emit("team-score-record", {
+                //             team_name: currentTeam1,
+                //             cp: currentCheckpoint2 - ignore_checkpoint2,
+                //             time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                //             score: score_team2,
+                //             outline: outline_time_Team2
+                //         })
+
+                //     }
+                // }
+                // else if (outline_flag_2 && outline_time_Team2 < 2) {
+                //     document.getElementById("timer_team_2").hidden = true;
+                //     $("#team2").css({ display: "none" });
+                //     team2nstop = false;
+                //     outline_flag_2 = false;
+                //     queue.enqueue(async () => {
+                //         if (!startSignal) {
+                //             startSignal = true;
+                //             intervalUpdateTime();
+                //         }
+                //     });
+                // }
+                if (startSignal) {
+                    outline_flag_2 = !outline_flag_2;
+                    if (outline_flag_2) {
+                        sound_eli.play();
+                        outline_time_Team2 = outline_time_Team2 + 1;
+                        $("#team2").css({ display: "block" });
+                    } 
+                    else $("#team2").css({ display: "none" });
+                  }
+            })
+            socket.on("send-tick", (tick) => {
+                startTick = tick;
+                console.log(startTick);
             });
             socket.on("esp-send", (data) => {
                 // console.log(data)
@@ -419,7 +562,7 @@ $.when(
                 //         });
                 //     }
                 // }
-                if (id >= 1 && id <= 5) {
+                if (id == currentCheckpoint1 + 1) {
                     socket.emit("esp-send-1",
                         {
                             id: currentCheckpoint1 + 1,
@@ -427,7 +570,7 @@ $.when(
                             ignore_flag: false
                         });
                 }
-                else if (id >= 6 && id <= 10) {
+                if (id == currentCheckpoint2 + 6) {
                     socket.emit("esp-send-2",
                         {
                             id: currentCheckpoint2 + 1,
@@ -451,12 +594,8 @@ $.when(
                     //cap nhat checkpoint moi
                     currentCheckpoint1 = currentCheckpoint1 + 1;
                     // currentCheckpointVal = currentCheckpoint1;
-                    if (currentCheckpoint1 == 5 && !data.ignore_flag) {
-                        score_team1 += 10;
-                        score_bonus_1 = 5;
-                    }
-                    else if(!data.ignore_flag) {
-                        score_team1 += 5;
+                    if (!data.ignore_flag) {
+                        score_team1 = score_team1 + Score_checkpoint;
                     }
                     updateCheckpoint(currentCheckpoint1, 1, data.ignore_flag);
                     updateTimeDisplay(currentCheckpoint1, 1, data.ignore_flag);
@@ -474,8 +613,9 @@ $.when(
                             team_name: currentTeam,
                             cp: currentCheckpoint1 - ignore_checkpoint1,
                             time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                            score: score_team1
-                        })
+                            score: score_team1,
+                            outline: outline_time_Team1
+                        });
                     } else if (currentCheckpoint1 == maxCheckPointsTeam1 && maxCheckPointsTeam1 < maxCheckPointsTeam2)
                         // timeTeam1 = distanceTime.mil + distanceTime.second * 100 + distanceTime.minute * 60 * 100;
                         timeTeam1 = currentTick - startTick;
@@ -506,12 +646,8 @@ $.when(
                     //cap nhat checkpoint moi
                     currentCheckpoint2 = currentCheckpoint2 + 1;
                     // currentCheckpointVal = currentCheckpoint2;
-                    if (currentCheckpoint2 == 5 && !data.ignore_flag) {
-                        score_team2 += 10;
-                        score_bonus_2 = 5;
-                    }
-                    else if(!data.ignore_flag) {
-                        score_team2 += 5;
+                    if (!data.ignore_flag) {
+                        score_team2 = score_team2 + Score_checkpoint;
                     }
                     updateCheckpoint(currentCheckpoint2, 2, data.ignore_flag);
                     updateTimeDisplay(currentCheckpoint2, 2, data.ignore_flag);
@@ -527,8 +663,9 @@ $.when(
                             team_name: currentTeam1,
                             cp: currentCheckpoint2 - ignore_checkpoint2,
                             time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                            score: score_team2
-                        })
+                            score: score_team2,
+                            outline: outline_time_Team2
+                        });
                     } else if (currentCheckpoint2 == maxCheckPointsTeam2 && maxCheckPointsTeam1 > maxCheckPointsTeam2)
                         timeTeam2 = currentTick - startTick;
                     //gui ve server luu db
@@ -541,12 +678,14 @@ $.when(
                     // });
                 }
             });
+
             function Start(callback) {
                 $("#myModal").modal("show");
                 resetDOM();
                 runAnimation();
                 callback();
             }
+
             function intervalUpdateTime() {
                 functionPoint = setInterval(function () {
                     var now = new Date().getTime();
@@ -577,9 +716,28 @@ $.when(
                     if (minutes >= limitTime && seconds >= 0) {
                         startSignal = false;
                         clearInterval(functionPoint);
+                        team1nstop = true;
+                        team2nstop = true;
+                        document.getElementById("timer_team_1").hidden = false;
+                        document.getElementById("timer_team_2").hidden = false;
+                        socket.emit("team-score-record", {
+                            team_name: currentTeam,
+                            cp: currentCheckpoint1 - ignore_checkpoint1,
+                            time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                            score: score_team1,
+                            outline: outline_time_Team1
+                        });
+                        socket.emit("team-score-record", {
+                            team_name: currentTeam1,
+                            cp: currentCheckpoint2 - ignore_checkpoint2,
+                            time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                            score: score_team2,
+                            outline: outline_time_Team2
+                        });
                     }
                 }, 10);
             }
+
             function resetDOM() {
                 counter.classList.remove("hide");
                 finalMessage.classList.remove("show");
@@ -609,6 +767,7 @@ $.when(
                     });
                 });
             }
+
             function updateCheckpoint(number, team, ignore_flag) {
                 let teamSel = team == 1 ? "" : "-1";
                 if (ignore_flag) {
@@ -625,7 +784,8 @@ $.when(
                         "0 1px 18px 10px rgba(127, 255, 0, 0.219), 0 6px 20px 0  rgba(127, 255, 0, 0.219)",
                 });
             }
-            function resetCheckpoint() {
+
+            function resetAllCheckpoint() {
                 for (let i = 1; i <= 5; i++) {
                     $("#checkpoint" + i).css({
                         "background-color": "#bbb",
@@ -636,6 +796,14 @@ $.when(
                         "box-shadow": "0 0px 0px 0px white, 0 0px 0px 0px white",
                     });
                 }
+            }
+
+            function resetThisCheckpoint(team, num_checkpoint) {
+                let teamSel = team == 1 ? "" : "-1";
+                $("#checkpoint" + num_checkpoint + teamSel).css({
+                    "background-color": "#bbb",
+                    "box-shadow": "0 0px 0px 0px white, 0 0px 0px 0px white",
+                });
             }
 
             function updateTimeDisplay(number, team, ignore_flag) {
@@ -677,7 +845,7 @@ $.when(
                 // }
             }
 
-            function resetTimeDisplay() {
+            function resetAllTimeDisplay() {
                 for (let i = 1; i <= 5; i++) {
                     $("#timecp" + i).text("00:00:00");
                     $("#timecp" + i).css({
@@ -693,16 +861,26 @@ $.when(
                 }
             }
 
+            function resetThisTimeDisplay(team, num_checkpoint) {
+                let teamSel = team == 1 ? "" : "-1";
+                $("#timecp" + num_checkpoint + teamSel).text("00:00:00");
+                $("#timecp" + num_checkpoint + teamSel).css({
+                    color: "white",
+                    "text-decoration": "none"
+                });
+            }
+
             function updateBonus(team) {
-                $("#bonus" + (team != 1 ? "" : "-1")).css({
+                let teamSel = team == 1 ? "" : "-1";
+                $("#bonus" + teamSel).css({
                     "background-color": "#ffff00",
                     "box-shadow":
                         "0 1px 18px 10px rgba(255, 255, 0, 0.219), 0 6px 20px 0  rgba(255, 255, 0, 0.219)",
                 });
-                $("#bonus_point" + (team != 1 ? "" : "-1")).text(
-                    (team != 1 ? score_bonus_1 : score_bonus_2)
+                $("#bonus_point" + teamSel).text(
+                    score_bonus
                 );
-                $("#bonus_point" + (team != 1 ? "" : "-1")).css({ color: "#ffff00" });
+                $("#bonus_point" + teamSel).css({ color: "#ffff00" });
             }
 
             function resetBonus() {

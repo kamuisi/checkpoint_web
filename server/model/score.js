@@ -10,6 +10,9 @@ const scoreSchema = new Schema ({
     time_finish: {
         type:String
     },
+    outline: {
+        type:Number
+    },
     score: {
         type:Number
     }

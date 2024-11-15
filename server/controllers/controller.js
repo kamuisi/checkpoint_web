@@ -136,12 +136,12 @@ var that = (module.exports = {
       if (data.flag_change != true) {
         var old_score = await score.findOne({team_name: data.team_name});
         console.log(old_score.team_name);
-        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score },
+        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score, outline: data.outline},
           { new: true, upsert: true });
         // console.log(new_score);
       }
       else {
-        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score },
+        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score, outline: data.outline},
           { new: true, upsert: true });
       }
     } catch (err) {

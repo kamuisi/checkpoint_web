@@ -81,17 +81,18 @@
 		  </form>
 		  <button class="accordion mb-2">Change score:</button>
 				<form class="changeForm" id="changeForm">
-					<input type="text" id="TeamName" placeholder="Name" class="form-control" required /><br />
+					<select id="TeamName" class="form-control"></select><br />
 					<input type="text" id="QuanCheckpoint" placeholder="Quantity checkpoint" class="form-control " /><br />
-					<input type="text" id="TeamScore" placeholder="Score" class="form-control" /><br />
 					<input type="text" id="TimeFinish" placeholder="Time finish" class="form-control" /><br />
+					<input type="text" id="Outline" placeholder="Time outline" class="form-control" /><br />
+					<input type="text" id="TeamScore" placeholder="Score" class="form-control" /><br />
 					<button class="btn btn-lg btn-primary btn-block" id="buttonUd" type="submit">Change score</button><br />
 				</form>
 		  </div>
 		  <div class="col-sm">
 			<button class="accordion mb-2">Delete team:</button>
 			<form class="delForm" id="delForm">   
-				<input type="text" id="delId" placeholder="Name" class="form-control " required /><br />
+				<select id="delId" class="form-control"></select><br />
 				<button class="btn btn-lg btn-primary btn-block mb-3" id="buttonDl" type="submit">Delete team</button>
 			</form>
 			<!-- <button class="accordion mb-2">Update team:</button>

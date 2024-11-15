@@ -39,7 +39,8 @@ var delay = null;
 var timeDelay = 0;
 var startDelay = 0;
 let teamScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-let teamName = ["LTK", "NhwngtenLieu", "UTE_AIS", "FPTU_AI"]
+// let teamName = ["LTK", "NhwngtenLieu", "UTE_AIS", "FPTU_AI"]
+let teamName = ["LTK", "NhwngtenLieu"]
 var boardActive = 4;
 $.when(
   $.getScript('./configClient/config.js', function () {
@@ -75,25 +76,47 @@ $.when(
         // console.log(data);
         var team_num = teamName.indexOf(data.team_name);
         $("#plus-" + team_num + "-0").text(" " + data.cp);
-        $("#plus-" + team_num + "-0").css({color: "#7FFF00"});
+        if(data.cp != 0)
+        {
+          $("#plus-" + team_num + "-0").css({ color: "#7FFF00" });
+        }
+        else {
+          $("#plus-" + team_num + "-0").css({ color: "#e02c2f" });
+        }
+        
         $("#plus-" + team_num + "-1").text(" " + data.time_finish);
-        $("#plus-" + team_num + "-1").css({color: "#7FFF00"});
-        $("#plus-" + team_num + "-2").text(" " + data.score);
-        $("#plus-" + team_num + "-2").css({color: "#7FFF00"});
+        $("#plus-" + team_num + "-1").css({ color: "#7FFF00" });
+        
+        $("#plus-" + team_num + "-2").text(" " + data.outline);
+        if(data.outline != 0)
+        {
+          $("#plus-" + team_num + "-2").css({ color: "#e02c2f" });
+        }
+        else {
+          $("#plus-" + team_num + "-2").css({ color: "#7FFF00" });
+        }
+
+        $("#plus-" + team_num + "-3").text(" " + data.score);
+        $("#plus-" + team_num + "-3").css({ color: "#7FFF00" });
+
       });
 
-      socket.emit("GetTeam");
+      // socket.emit("GetTeam");
 
-      /* cap nhat ten doi moi */
-      socket.on("ListTeam", (data) => {
+      // /* cap nhat ten doi moi */
+      // socket.on("ListTeam", (data) => {
+      //   // console.log(data);
+      //   for (let i = 0; i < data.length; i++) {
+      //     teamName[i] = data[i].name;
+      //   }
+      // });
+      socket.emit("GetDual");
+      socket.on("Change-team-web", (data) => {
         // console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          teamName[i] = data[i].name;
-        }
-        $("#nameofteam-0").html(teamName[0]);
-        $("#nameofteam-1").html(teamName[1]);
-        $("#nameofteam-2").html(teamName[2]);
-        $("#nameofteam-3").html(teamName[3]);
+        teamName[0] = data.team1;
+        teamName[1] = data.team2;
+        $("#nameofteam-0").html(data.team1);
+        $("#nameofteam-1").html(data.team2);
       });
     });
   });
