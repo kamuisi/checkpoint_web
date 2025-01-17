@@ -60,7 +60,7 @@ module.exports = function (io, activeNode) {
         client.publish('light',JSON.stringify(data),{qos:1, retain: false})
     }
     exports.sendStartTraffic = function(data) {
-        client.publish('CEEC-light-start',JSON.stringify(data),{qos:1, retain: false})
+        client.publish('light',JSON.stringify(data),{qos:1, retain: false})
     }
     exports.setTrafficTime = function (data) {
         client.publish('light-time',JSON.stringify(data),{qos:1, retain: false})

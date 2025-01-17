@@ -142,7 +142,8 @@ $.getScript('./configClient/config.js', function () {
 			e.preventDefault()
 			try {
 				socket.emit("team-score-record", {team_name: $('#TeamName').val(), cp: $('#QuanCheckpoint').val(), 
-					time_finish: $('#TimeFinish').val(), outline: $('#Outline').val(), score: $('#TeamScore').val()
+					time_finish: $('#TimeFinish').val(), outline: $('#Outline').val(), negative_point: $('#NegativePoint').val(), 
+					score: $('#TeamScore').val(), flag_change: true
 				})
 				errorMessage.textContent = '';
 				setTimeout(() => {

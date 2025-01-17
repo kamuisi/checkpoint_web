@@ -71,6 +71,7 @@ module.exports = function (io, mqtt, activeNode, lightNode, startTime) {
             try {
                 await db.addRecordScore(data);
                 db.getScore(data, (scores) => {
+                    // console.log(scores);
                     io.sockets.emit('score-record', scores);
                 });
                 // console.log(data);

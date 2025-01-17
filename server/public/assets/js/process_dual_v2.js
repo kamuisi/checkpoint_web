@@ -713,28 +713,28 @@ $.when(
                             "Thời gian hoàn thành<br>" + minutes + ":" + seconds + ":" + mils;
                     }
                     // 5 minutes
-                    if (minutes >= limitTime && seconds >= 0) {
-                        startSignal = false;
-                        clearInterval(functionPoint);
-                        team1nstop = true;
-                        team2nstop = true;
-                        document.getElementById("timer_team_1").hidden = false;
-                        document.getElementById("timer_team_2").hidden = false;
-                        socket.emit("team-score-record", {
-                            team_name: currentTeam,
-                            cp: currentCheckpoint1 - ignore_checkpoint1,
-                            time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                            score: score_team1,
-                            outline: outline_time_Team1
-                        });
-                        socket.emit("team-score-record", {
-                            team_name: currentTeam1,
-                            cp: currentCheckpoint2 - ignore_checkpoint2,
-                            time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
-                            score: score_team2,
-                            outline: outline_time_Team2
-                        });
-                    }
+                    // if (minutes >= limitTime && seconds >= 0) {
+                    //     startSignal = false;
+                    //     clearInterval(functionPoint);
+                    //     team1nstop = true;
+                    //     team2nstop = true;
+                    //     document.getElementById("timer_team_1").hidden = false;
+                    //     document.getElementById("timer_team_2").hidden = false;
+                    //     socket.emit("team-score-record", {
+                    //         team_name: currentTeam,
+                    //         cp: currentCheckpoint1 - ignore_checkpoint1,
+                    //         time_finish: document.getElementById("timer_team_1").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                    //         score: score_team1,
+                    //         outline: outline_time_Team1
+                    //     });
+                    //     socket.emit("team-score-record", {
+                    //         team_name: currentTeam1,
+                    //         cp: currentCheckpoint2 - ignore_checkpoint2,
+                    //         time_finish: document.getElementById("timer_team_2").innerText.match(/(\d{2}:\d{2}:\d{2})/)[0],
+                    //         score: score_team2,
+                    //         outline: outline_time_Team2
+                    //     });
+                    // }
                 }, 10);
             }
 

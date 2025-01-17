@@ -73,7 +73,7 @@ $.when(
       // $("#team2").html("OUT TURN");
 
       socket.on("score-record", (data) => {
-        // console.log(data);
+        console.log(data);
         var team_num = teamName.indexOf(data.team_name);
         $("#plus-" + team_num + "-0").text(" " + data.cp);
         if(data.cp != 0)
@@ -83,7 +83,7 @@ $.when(
         else {
           $("#plus-" + team_num + "-0").css({ color: "#e02c2f" });
         }
-        
+
         $("#plus-" + team_num + "-1").text(" " + data.time_finish);
         $("#plus-" + team_num + "-1").css({ color: "#7FFF00" });
         
@@ -96,8 +96,17 @@ $.when(
           $("#plus-" + team_num + "-2").css({ color: "#7FFF00" });
         }
 
-        $("#plus-" + team_num + "-3").text(" " + data.score);
-        $("#plus-" + team_num + "-3").css({ color: "#7FFF00" });
+        $("#plus-" + team_num + "-3").text(" " + data.negative_point);
+        if(data.negative_point != 0)
+        {
+          $("#plus-" + team_num + "-3").css({ color: "#e02c2f" });
+        }
+        else {
+          $("#plus-" + team_num + "-3").css({ color: "#7FFF00" });
+        }
+        var score = (data.score - data.negative_point)
+        $("#plus-" + team_num + "-4").text(" " + score);
+        $("#plus-" + team_num + "-4").css({ color: "#7FFF00" });
 
       });
 

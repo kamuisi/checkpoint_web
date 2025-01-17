@@ -5,16 +5,24 @@ const scoreSchema = new Schema ({
         type:String
     },
     cp: {
-        type:Number
+        type:Number,
+        default: 0
     },
     time_finish: {
-        type:String
+        type:String,
+        default: "00:00:00"
     },
     outline: {
-        type:Number
+        type:Number,
+        default: 0
+    },
+    negative_point: {
+        type:Number,
+        default: 0
     },
     score: {
-        type:Number
+        type:Number,
+        default: 0
     }
 })
 const scoreModel = mongoose.model('Score', scoreSchema)

@@ -134,15 +134,33 @@ var that = (module.exports = {
   addRecordScore: async (data) => {
     try {
       if (data.flag_change != true) {
-        var old_score = await score.findOne({team_name: data.team_name});
-        console.log(old_score.team_name);
-        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score, outline: data.outline},
-          { new: true, upsert: true });
-        // console.log(new_score);
+        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, {
+          cp: data.cp, time_finish: data.time_finish,
+          outline: data.outline, negative_point: 0, score: data.score
+        },
+        { new: true, upsert: true });
       }
       else {
-        var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, { cp: data.cp, time_finish: data.time_finish, score: data.score, outline: data.outline},
-          { new: true, upsert: true });
+        var old_score = await score.findOne({ team_name: data.team_name });
+        if (old_score != null) {
+          // console.log(old_score.team_name);
+          var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, {
+            cp: (data.cp == 0 ? data.cp : old_score.cp), 
+            time_finish: (data.time_finish == "00:00:00" ? old_score.time_finish : data.time_finish),
+            outline: (data.outline ==  0 ? old_score.outline : data.outline), 
+            negative_point: (data.negative_point ==  0 ? old_score.negative_point : data.negative_point), 
+            score: (data.score ==  0 ? old_score.score : data.score )
+          },
+            { new: true, upsert: true });
+            console.log(new_score)
+        }
+        else {
+          var new_score = await score.findOneAndUpdate({ team_name: data.team_name }, {
+            cp: data.cp, time_finish: data.time_finish,
+            outline: data.outline, negative_point: data.negative_point, score: data.score
+          },
+            { new: true, upsert: true });
+        }
       }
     } catch (err) {
       console.log({ error: err });
